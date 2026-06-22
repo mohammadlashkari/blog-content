@@ -1,6 +1,7 @@
 # Markdown syntax guide
 
 ## Headers
+## Headers
 
 # This is a Heading h1
 ## This is a Heading h2
