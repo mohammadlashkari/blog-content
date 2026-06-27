@@ -2,7 +2,7 @@
 title: "MY FIRST POST"
 slug: "my-first-post"
 language: "en"
-tags: ["go", "web", "blogging"]
+tags: ["go", "web", "blogging", "en"]
 ---
 
 
