@@ -2,7 +2,7 @@
 
 title: "GIT DIFF"
 slug: "git_diff"
-language: "en"
+language: "fa"
 tags: ["git", "blogging"]
 ---
 
