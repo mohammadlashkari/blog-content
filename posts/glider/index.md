@@ -4,8 +4,9 @@ slug: glider
 description: A glider is a small pattern that simply keeps moving forward through the grid
 language: fa
 is_favorite: true
-tags: [ general ]
-embed_id: "game-of-life"
+tags:
+  - general
+embed: game-of-life
 published_at: 2026-07-18T23:01:00+03:30
 version: 1
 ---
