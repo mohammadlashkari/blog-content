@@ -1,0 +1,9 @@
+feeds:
+  - name: Dave Cheney
+    url: https://dave.cheney.net/feed
+  - name: Alex Edwards
+    url: https://www.alexedwards.net/static/feed.rss
+  - name: Antirez
+    url: https://antirez.com/rss
+  - name: Eli Bendersky
+    url: https://eli.thegreenplace.net/feeds
