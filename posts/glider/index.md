@@ -6,7 +6,7 @@ language: fa
 is_favorite: true
 tags: [ general ]
 embed_id: "game-of-life"
-published_at: 2026-07-18 23:01
+published_at: 2026-07-18T23:01:00+03:30
 version: 1
 ---
 درود
