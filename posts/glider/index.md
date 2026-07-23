@@ -1,7 +1,7 @@
 ---
 title: گلایدر
 slug: glider
-description: A glider is a small pattern that simply keeps moving forward through the grid
+description:
 language: fa
 is_favorite: true
 tags:
