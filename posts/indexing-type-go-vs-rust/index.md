@@ -1,7 +1,7 @@
 ---
 title: What type is arr[i]? Indexing in Go vs Rust
 slug: indexing-type-go-vs-rust
-description: The type behind arr[i]: why Rust picks usize and Go picks int.
+description: "The type behind arr[i]: why Rust picks usize and Go picks int."
 language: en
 is_favorite: false
 tags:
