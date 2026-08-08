@@ -18,9 +18,7 @@ In other words, these lines are present in `A` but absent in `B`.
 `+` lines represent content that does't exist in `A` and needs to be added to transform `A` into `B`.
 In other words, these lines are present in `B` but absent in `A`.
 
-<div align="left">
-  <img src="assets/img1.png" alt="description" width="600">
-</div>
+![Diff between file A and file B showing removed and added lines](assets/img1.png)
 
 
 git diff works the same but A and B don’t have to be files on disk they can be commits, branches, the staging area or the working directory 
@@ -49,9 +47,7 @@ While the foundational concept of transforming `A` into `B` remains true, `git d
 - **Question it answers:** How is my file on disk different from the last commit snapshot?
 
 
-<div align="left">
-  <img src="assets/img2.png" alt="description" width="650">
-</div>
+![Git diff comparing HEAD, the staging area and the working directory](assets/img2.png)
 
 
 # `git diff A B` vs `A..B` vs `A...B`
