@@ -54,6 +54,10 @@ verses:
     author: سید تقی سیدی
     language: fa
 
+  - text: What i cannot create i do not understand
+    author: Richard Feynman
+    language: en
+
   - text: |
       هرگز از دوست شنیدی که کسی بشکیبد؟
       دوستی نیست در آن دل که شکیبایی هست
@@ -106,3 +110,8 @@ verses:
       ریاضت‌کش به بادامی بسازد
     author: باباطاهر
     language: fa
+
+  - text: The beauty of mathematics shows itself to patient followers
+    author: Maryam Mirzakhani
+    language: en
+
