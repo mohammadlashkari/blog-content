@@ -7,14 +7,14 @@ is_favorite: false
 tags:
   - go
   - rust
-published_at:
+published_at: 2026-08-08T00:00:00Z
 ---
 
 I write Go in my daily work and I really like the language. Recently I started learning Rust, and I'm enjoying it a lot. I think learning a new language is fun and it also makes you a better programmer in your main language.
-Every time you learn something new in the new language, you catch yourself thinking: "How would I do this in Go?" or "How does Go implement this under the hood?" And with AI around, this comparison is easier and you end up learning a ton.
+Every time you learn something new in the new language you catch yourself thinking "How do the other languages i know do this?" And with AI around making these comparison is easier and you end up learning a ton.
 
 A side note before we start: people used to talk more about their experience learning a new language or a new tool. Now almost all the content is about AI, and honestly it gets a bit boring.
-Some people ask, "Why bother learning new things when AI does it better?" I don't buy that. You don't walk up to a football fan and ask why he knows all these players or the whole World Cup history. You don't ask a movie lover why he remembers every little detail. He knows because he loves it. I love programming and I enjoy it. I don't care if AI does it better than me or whatever. I don't consider myself a great programmer, but I'm trying to be one and if AI takes my job, I'm sure I'll still be coding after I get home from the goose farm. :)
+Some people ask, "Why bother learning new things when AI does it better?" I don't buy that. You don't walk up to a football fan and ask why he knows all these players. You don't ask a movie lover why he remembers every little detail. they know because they love it. I enjoy programming so i don't care if AI does it better than me or whatever. And after all if AI takes my job, I'm sure I'll still be coding when I get home from the goose farm.
 (That's how I feel right now, and I hope it doesn't change.) Sorry, I just used this blog post to leave a note for myself. Back to the story.
 
 I was reading a book about Rust when I hit this sentence: "Rust uses `usize` for indexing." I paused. Wait, *indexing has a type?* I had never really thought about it.
@@ -52,12 +52,7 @@ fn main() {
         - **Release build:** wraps to `usize::MAX`.
     - Because of this, idiomatic reverse iteration uses `(0..n).rev()` or `arr.iter().rev()` instead of counting down from `n - 1`.
 
-> **What about `let y = 1; arr[y]`? Isn't the default `i32`?** That still compiles, and it's
-> *not* an implicit cast. Rust integer literals start out untyped; `i32` is only the *fallback*
-> the compiler picks when nothing constrains them. Here `arr[y]` requires `y: usize`, and that
-> requirement flows backward through the expression, so the literals are inferred as `usize`
-> from the start. Nothing is coerced. The moment you pin a type, like `let y: i32 = 1;`, the
-> same code stops compiling, because Rust never casts between integer types implicitly.
+> **What about `let y = 1; arr[y]`? Isn't `1` an `i32`?** Integer literals are initially untyped, and `i32` is just the default when the compiler can't infer a type. Since array indexing requires a `usize`, `y` is inferred as `usize`. No implicit cast happens. If you write `let y: i32 = 1`, it won't compile because Rust doesn't implicitly cast between integer types.
 
 ### Go
 
@@ -86,14 +81,9 @@ func main() {
 
 ### Strings are different
 
-- **Go:** `s[i]` indexes the underlying **bytes** and returns a `byte` (`uint8`), not a rune.
-  A Go string is just a read-only sequence of bytes (usually UTF-8), so `s[0]` on `"héllo"`
-  gives you the first *byte*, which may be only half of a character.
-- **Rust:** you *cannot* write `s[i]` on a `str`/`String` at all. `str` doesn't implement
-  `Index<usize>`. The language refuses, on purpose, so you can't accidentally split a UTF-8
-  character in half. Instead you either slice a byte range, `&s[0..4]` (which *panics* if the
-  range doesn't land on a character boundary), or iterate explicitly with `.chars()` (Unicode
-  scalar values) or `.bytes()` (raw bytes).
+- **Go:** `s[i]` indexes the underlying **bytes** and returns a `byte` (`uint8`) not a rune.
+  A Go string is just a read-only sequence of bytes and strigns are UTF-8 encoded so `s[0]` on `"héllo"` gives you the first *byte*, which may be only half of a character.
+- **Rust:** you *cannot* write `s[i]` on a `str`/`String` at all. The language refuses this on purpose so you can't accidentally split a UTF-8 character in half. Instead you can either slice a byte range, `&s[0..4]` (which *panics* if the range doesn't land on a character boundary), or iterate explicitly with `.chars()` (Unicode scalar values) or `.bytes()` (raw bytes).
 
 So yes, indexing has a type. It's cool to see these design decisions.
 One sentence in a book, and now I notice it everywhere.
