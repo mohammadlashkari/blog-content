@@ -48,7 +48,7 @@ fn main() {
 - **Bounds checking:** `arr[i]` is checked at runtime and **panics** if `i` is out of bounds. The compiler may remove the check when it can prove at compile time that the index is always valid. The safe, non-panicking alternative is `arr.get(i)`, which returns an `Option<&T>`.
 - **Length and arithmetic:** `arr.len()` returns a `usize` (unsigned).
     - `arr.len() - 1` when the array is empty (`len == 0`):
-        - **Debug build:** panics (integer overflow).
+        - **Debug build:** panics (`attempt to subtract with overflow`).
         - **Release build:** wraps to `usize::MAX`.
     - Because of this, idiomatic reverse iteration uses `(0..n).rev()` or `arr.iter().rev()` instead of counting down from `n - 1`.
 
