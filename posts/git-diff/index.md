@@ -12,11 +12,9 @@ tags:
 
 Think of `A` and `B` as two text files. `diff A B` shows what changes are needed to turn `A` into `B`.
 
-`-` lines represent content that exists in `A` but needs to be removed to transform `A` into `B`.
-In other words, these lines are present in `A` but absent in `B`.
+`-` lines represent content that exists in `A` but needs to be removed to transform `A` into `B`. In other words, these lines are present in `A` but absent in `B`.
 
-`+` lines represent content that doesn't exist in `A` and needs to be added to transform `A` into `B`.
-In other words, these lines are present in `B` but absent in `A`.
+`+` lines represent content that doesn't exist in `A` and needs to be added to transform `A` into `B`. In other words, these lines are present in `B` but absent in `A`.
 
 ![Diff between file A and file B showing removed and added lines](assets/img1.png)
 
