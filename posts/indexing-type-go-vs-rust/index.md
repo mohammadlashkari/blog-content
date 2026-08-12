@@ -48,7 +48,7 @@ fn main() {
 - **Bounds checking:** `arr[i]` is checked at runtime and **panics** if `i` is out of bounds. The compiler may remove the check when it can prove at compile time that the index is always valid. The safe, non-panicking alternative is `arr.get(i)`, which returns an `Option<&T>`.
 - **Length and arithmetic:** `arr.len()` returns a `usize` (unsigned).
     - `arr.len() - 1` when the array is empty (`len == 0`):
-        - **Debug build:** panics (`attempt to subtract with overflow`).
+        - **Debug build:** panics (`attempt to subtract with overflow`).[^overflow]
         - **Release build:** wraps to `usize::MAX`.
     - Because of this, idiomatic reverse iteration uses `(0..n).rev()` or `arr.iter().rev()` instead of counting down from `n - 1`.
 
@@ -87,3 +87,11 @@ func main() {
 
 So yes, indexing has a type. It's cool to see these design decisions.
 One sentence in a book, and now I notice it everywhere.
+
+[^overflow]: This is really an *underflow* (going below `0`), but Rust just says "overflow" for both directions. If the numbers are known at compile time, you get an error instead of a panic:
+
+    ```text
+    error: this arithmetic operation will overflow
+      | let _x = 0usize - 1;
+      |          ^^^^^^^^^^^ attempt to compute `0_usize - 1_usize`, which would overflow
+    ```
