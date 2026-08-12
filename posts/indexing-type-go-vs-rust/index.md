@@ -82,7 +82,7 @@ func main() {
 ### Strings are different
 
 - **Go:** `s[i]` indexes the underlying **bytes** and returns a `byte` (`uint8`) not a rune.
-  A Go string is just a read-only sequence of bytes and strigns are UTF-8 encoded so `s[0]` on `"héllo"` gives you the first *byte*, which may be only half of a character.
+  A Go string is just a read-only sequence of bytes and strings are UTF-8 encoded so `s[0]` on `"héllo"` gives you the first *byte*, which may be only half of a character.
 - **Rust:** you *cannot* write `s[i]` on a `str`/`String` at all. The language refuses this on purpose so you can't accidentally split a UTF-8 character in half. Instead you can either slice a byte range, `&s[0..4]` (which *panics* if the range doesn't land on a character boundary), or iterate explicitly with `.chars()` (Unicode scalar values) or `.bytes()` (raw bytes).
 
 So yes, indexing has a type. It's cool to see these design decisions.

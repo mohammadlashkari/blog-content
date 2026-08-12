@@ -15,31 +15,34 @@ Think of `A` and `B` as two text files. `diff A B` shows what changes are needed
 `-` lines  represent content that exists in`A` but needs to be removed to transform `A` into `B`.
 In other words, these lines are present in `A` but absent in `B`.
 
-`+` lines represent content that does't exist in `A` and needs to be added to transform `A` into `B`.
+`+` lines represent content that doesn't exist in `A` and needs to be added to transform `A` into `B`.
 In other words, these lines are present in `B` but absent in `A`.
 
 ![Diff between file A and file B showing removed and added lines](assets/img1.png)
 
 
-git diff works the same but A and B don’t have to be files on disk they can be commits, branches, the staging area or the working directory 
+git diff works the same, but A and B don’t have to be files on disk. They can be commits, branches, the staging area, or the working directory.
 While the foundational concept of transforming `A` into `B` remains true, `git diff` rarely requires you to specify both explicitly. Git applies smart defaults to compare specific areas of your project.
 
 
-- **Command:** `git diff`
+### `git diff`
+
 - **A (Start Point):** The Staging Area
 - **B (End Point):** The Working Directory
 - **Compares**: Staging Area → Working Directory
-- **Shows:**  Changes not yet staged
-- **Question it answers:**  What have I changed since my last `git add`?
+- **Shows:** Changes not yet staged
+- **Question it answers:** What have I changed since my last `git add`?
 
-- **Command:** `git diff --staged` (or `git diff --cached`)
+### `git diff --staged` (or `git diff --cached`)
+
 - **A (Start Point):** HEAD
 - **B (End Point):** The Staging Area
 - **Compares**: HEAD → The Staging Area
 - **Shows:** The staged changes ready for commit
 - **Question it answers:** What changes am I about to commit?
 
-- **Command:** `git diff HEAD`
+### `git diff HEAD`
+
 - **A (Start Point):** HEAD
 - **B (End Point):** The Working Directory
 - **Compares**: HEAD → Working Directory
