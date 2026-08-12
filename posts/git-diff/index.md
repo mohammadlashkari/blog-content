@@ -8,7 +8,7 @@ tags:
   - git
 ---
 
-### what does `diff A B` mean ?
+## what does `diff A B` mean ?
 
 Think of `A` and `B` as two text files. `diff A B` shows what changes are needed to turn `A` into `B`.
 
@@ -50,7 +50,7 @@ While the foundational concept of transforming `A` into `B` remains true, `git d
 ![Git diff comparing HEAD, the staging area and the working directory](assets/img2.png)
 
 
-# `git diff A B` vs `A..B` vs `A...B`
+## `git diff A B` vs `A..B` vs `A...B`
 
 `git diff A..B` is equivalent to `git diff A B`—both show the changes needed to transform `A` into `B`.
 
@@ -70,18 +70,19 @@ A---B
 - `git diff main...feature-branch` → compares `B` (merge-base) with `H` (tip of feature-branch)
     - Shows **only** changes `F`, `G`, `H` (work done on feature-branch)
     - The three-dot syntax is especially useful when reviewing a feature branch
-    
+
 - `git diff main..feature-branch` → compares `E` (tip of main) with `H` (tip of feature-branch)
     - Shows all differences between both branches
 
 
-# `git show` 
+## `git show`
 
 Displays detailed information about a Git object (typically a commit), including:
 - Commit metadata (hash, author, date, message)
 - The changes (diff) introduced by that commit
 
-#### The Diff Behind `git show`
+### The Diff Behind `git show`
+
 The diff portion of `git show` works by comparing a commit with its parent:
 - `git show HEAD` shows the diff: `HEAD^ → HEAD`
 - `git show <commit-hash>` shows the diff: `<commit-hash>^ → <commit-hash>`
@@ -99,7 +100,7 @@ git show abc1234
 git diff abc1234^ abc1234
 ```
 
-# Useful Flags
+## Useful Flags
 
 ```sh
 # Ignore whitespace changes when comparing lines
