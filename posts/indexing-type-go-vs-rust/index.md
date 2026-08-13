@@ -88,4 +88,4 @@ func main() {
 So yes, indexing has a type. It's cool to see these design decisions.
 One sentence in a book, and now I notice it everywhere.
 
-[^overflow]: This is really an *underflow* (going below `0`), but Rust just says "overflow" for both directions. (its kinda weird for me)
+[^overflow]: This is really an *underflow* (going below `0`) but Rust just says "overflow" for both directions. (its kinda weird for me)
