@@ -7,3 +7,5 @@ feeds:
     url: https://antirez.com/rss
   - name: Eli Bendersky
     url: https://eli.thegreenplace.net/feeds/all.atom.xml
+  - name: Bob Nystrom
+    url: https://journal.stuffwithstuff.com/rss.xml
