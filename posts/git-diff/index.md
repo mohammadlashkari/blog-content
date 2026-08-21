@@ -35,7 +35,7 @@ No repo, no commits, no staging area. Just `A` and `B`.
 ## The defaults
 
 In everyday use `A` and `B` are rarely physical files on disk. They represent states in your repository such as commits, branches, the staging area, or your working directory.
-The `A -> B` concept remains you rarely need to specify both sides explicitly because Git infers them using smart defaults.
+The `A -> B` concept remains but you rarely need to specify both sides explicitly because Git infers them using smart defaults.
 
 ### `git diff`
 
@@ -92,41 +92,47 @@ A---B
 
 ## `git show`
 
-Displays detailed information about a Git object (typically a commit), including:
-- Commit metadata (hash, author, date, message)
-- The changes (diff) introduced by that commit
+Shows information about a Git object (typically a commit), including:
+- the commit metadata (hash, author, date, message)
+- the changes (diff) that commit introduced
 
-### The Diff Behind `git show`
+### The diff Behind `git show`
 
-The diff portion of `git show` works by comparing a commit with its parent:
-- `git show HEAD` shows the diff: `HEAD^ → HEAD`
-- `git show <commit-hash>` shows the diff: `<commit-hash>^ → <commit-hash>`
+The diff part of `git show` compares a commit with its parent:
+- **A (start):** the parent commit
+- **B (end):** the commit being shown
+so `git show HEAD` shows the diff: `HEAD^ -> HEAD` and `git show <commit-hash>` shows the diff: `<commit-hash>^ -> <commit-hash>`
 
 ```sh
 git show
-# ↓ Defaults to HEAD
+# ↓ defaults to HEAD
 git show HEAD
-# ↓ Under the hood, compares parent to HEAD
+# ↓ under the hood, compares parent to HEAD
 git diff HEAD^ HEAD
 
-# For a specific commit:
 git show abc1234
-# ↓ Equivalent to:
+# ↓ equivalent to:
 git diff abc1234^ abc1234
 ```
 
 ## Useful Flags
 
 ```sh
-# Ignore whitespace changes when comparing lines
+# ignore whitespace changes when comparing lines
 git diff -w
 
-# Show a compact summary of changes (files changed, insertions, deletions)
+# compact summary of changes (files changed, insertions, deletions)
 git diff --stat
 
-# Show differences word-by-word instead of line-by-line
+# show only the names of changed files
+git diff --name-only
+
+# word-by-word instead of line-by-line
 git diff --word-diff
 
-# Show the diff in reverse (swap A and B)
+# swap A and B
 git diff -R
+
+# only this file
+git diff -- main.go
 ```
