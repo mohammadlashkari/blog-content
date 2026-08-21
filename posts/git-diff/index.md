@@ -14,18 +14,16 @@ so  i think knowing git diff well is very handy
 
 ## what does `diff A B` mean ?
 
-Think of `A` and `B` as two text files. `diff A B` shows the changes are needed to turn `A` into `B`. (`A -> B`)
-
-`-` lines exist in `A` but need to be removed to transform `A` into `B`. They are in `A` and not in `B`.
-
-`+` lines don't exist in `A` and need to be added to transform `A` into `B`. They are in `B` and not in `A`.
+Think of `A` and `B` as two files. `diff A B` shows the changes are needed to turn `A` into `B` (`A -> B`).
+-  `-` lines exist in `A` but need to be removed to transform `A` into `B`. They are in `A` and not in `B`.
+- `+` lines don't exist in `A` and need to be added to transform `A` into `B`. They are in `B` and not in `A`.
 
 ![Diff between file A and file B showing removed and added lines](assets/img1.png)
 
 That is the whole concept. `A` is where you start, `B` is where you end up, and the diff describes how to get from `A` to `B`.
 You can test this concept right now without a Git repository. Git can diff any two plain files on your system:
 
-```sh
+```bash
 git diff --no-index a.txt b.txt
 ```
 
@@ -36,14 +34,14 @@ No repo, no commits, no staging area. Just `A` and `B`.
 
 ## The defaults
 
-In real daily usage, `A` and `B` are rarely physical files on disk. They represent states in your repository: commits, branches, the staging area, or your working directory.
-The `A -> B` concept remains you rarely need to type both targets because Git infers them using smart defaults.
+In everyday use `A` and `B` are rarely physical files on disk. They represent states in your repository such as commits, branches, the staging area, or your working directory.
+The `A -> B` concept remains you rarely need to specify both sides explicitly because Git infers them using smart defaults.
 
 ### `git diff`
 
 - **A (start):** the staging area
 - **B (end):** the working directory
-- **Compares:** staging area -> working directory
+- **Transform:** staging area -> working directory
 - **Shows:** changes not yet staged
 - **Question it answers:** what have i changed since my last `git add`?
 
@@ -51,7 +49,7 @@ The `A -> B` concept remains you rarely need to type both targets because Git in
 
 - **A (start):** HEAD
 - **B (end):** the staging area
-- **Compares:** HEAD -> staging area
+- **Transform:** HEAD -> staging area
 - **Shows:** the staged changes ready for commit
 - **Question it answers:** what changes am i about to commit?
 
@@ -59,7 +57,7 @@ The `A -> B` concept remains you rarely need to type both targets because Git in
 
 - **A (start):** HEAD
 - **B (end):** the working directory
-- **Compares:** HEAD -> working directory
+- **Transform:** HEAD -> working directory
 - **Shows:** all changes (both staged and unstaged) since the last commit
 - **Question it answers:** how is my working tree different from my last commit?
 
