@@ -67,26 +67,25 @@ The `A -> B` concept remains but you rarely need to specify both sides explicitl
 
 ## `git diff A B` vs `A..B` vs `A...B`
 
-`git diff A..B` is equivalent to `git diff A B`—both show the changes needed to transform `A` into `B`.
+`git diff A..B` is equivalent to `git diff A B` both show the changes needed to transform `A` into `B`.
 
 `git diff A...B` is equivalent to `git diff $(git merge-base A B) B`.
-This compares the **common ancestor** of `A` and `B` with `B`, showing only the changes that happened on `B` since it diverged from `A`.
+It compares the **common ancestor** of `A` and `B` with `B`, showing only the changes made on `B` since it branched off from `A`.
+
+**Comparing `main` and `feature`:**
 
 ```
-      C---D---E  (main)
-     /
-A---B
-     \
-      F---G---H  (feature-branch)
+       c3---c4---c5  (main)
+      /
+c1---c2
+      \
+       f1---f2---f3  (feature)
 ```
 
-**Comparing `main` and `feature-branch`:**
-
-- `git diff main...feature-branch` → compares `B` (merge-base) with `H` (tip of feature-branch)
-    - Shows **only** changes `F`, `G`, `H` (work done on feature-branch)
-    - The three-dot syntax is especially useful when reviewing a feature branch
-
-- `git diff main..feature-branch` → compares `E` (tip of main) with `H` (tip of feature-branch)
+- `git diff main...feature` → compares `c2` (the merge-base) with `f3` (tip of feature)
+    - Shows **only** the work done on the feature branch: `f3`, `f2`, `f1`
+    - This is usually what you want when reviewing a branch, because it ignores whatever landed on `main` in the meantime
+- `git diff main..feature` → compares `c5` (tip of main) with `f3` (tip of feature)
     - Shows all differences between both branches
 
 
@@ -101,7 +100,7 @@ Shows information about a Git object (typically a commit), including:
 The diff part of `git show` compares a commit with its parent:
 - **A (start):** the parent commit
 - **B (end):** the commit being shown
-- so `git show HEAD` shows the diff: `HEAD^ -> HEAD` and `git show <commit-hash>` shows the diff: `<commit-hash>^ -> <commit-hash>`
+- so `git show HEAD` shows the diff `HEAD^ -> HEAD`, and `git show <commit-hash>` shows `<commit-hash>^ -> <commit-hash>`
 
 ```sh
 git show
