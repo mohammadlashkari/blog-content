@@ -101,7 +101,7 @@ Shows information about a Git object (typically a commit), including:
 The diff part of `git show` compares a commit with its parent:
 - **A (start):** the parent commit
 - **B (end):** the commit being shown
-so `git show HEAD` shows the diff: `HEAD^ -> HEAD` and `git show <commit-hash>` shows the diff: `<commit-hash>^ -> <commit-hash>`
+- so `git show HEAD` shows the diff: `HEAD^ -> HEAD` and `git show <commit-hash>` shows the diff: `<commit-hash>^ -> <commit-hash>`
 
 ```sh
 git show
