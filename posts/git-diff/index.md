@@ -9,9 +9,7 @@ tags:
 published_at: 2026-08-28T00:00:00Z
 ---
 
-Your agents write the code now? At least review what they hand you.
-
-Reviewing means reading a diff, so let's see what a `diff` actually is.
+Your agents write the code now? At least review what they hand you. Reviewing means reading a diff, so let's see what a `diff` actually is.
 
 ## What does `diff A B` mean?
 
