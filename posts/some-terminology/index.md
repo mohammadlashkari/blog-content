@@ -15,7 +15,7 @@ In our daily work we use some words interchangeably, and people still get what w
 - infer, convert, cast, coerce
 - argument, parameter
 - Unicode, code point, UTF-8
-- race condition, data race
+- data race, race condition
 
 Let's check each one.
 
@@ -103,5 +103,61 @@ So: Unicode is the table, a code point is a number in that table, and UTF-8 is t
 
 ```
 
-## Race condition and data race
+## Data race and race condition
 
+A **data race** happens when multiple thread, goroutine,... access shared data, and at least one of them modifies it.
+
+```go
+num := 10
+var wg sync.WaitGroup
+
+wg.Go(func() { num++ })
+wg.Go(func() { fmt.Println(num) })
+
+wg.Wait()
+```
+
+- `go run -race` will report it.
+
+
+A **race condition** happens when an unpredictable order of operations leads to an incorrect system state. In a concurrent environment, we can’t control the exact order things happen. Still, we need to make sure that no matter the order, the system always ends up in the correct state.
+
+```go
+balance := 100
+var wg sync.WaitGroup
+var mu sync.Mutex // Mutex prevents data races, but not race conditions
+
+// Transaction 1: Withdraw $80
+wg.Go(func() {
+    mu.Lock()
+    defer mu.Unlock()
+
+    if balance >= 80 {
+        // Simulating some processing delay
+        time.Sleep(10 * time.Millisecond)
+        balance -= 80
+        fmt.Println("withdrew $80, balance remaining:", balance)
+    } else {
+        fmt.Println("failed to withdraw $80: insufficient funds")
+    }
+})
+
+// Transaction 2: Withdraw $50
+wg.Go(func() {
+    mu.Lock()
+    defer mu.Unlock()
+
+    if balance >= 50 {
+        time.Sleep(10 * time.Millisecond)
+        balance -= 50
+        fmt.Println("withdrew $50, balance remaining:", balance)
+    } else {
+        fmt.Println("failed to withdraw $50: insufficient funds")
+    }
+})
+
+wg.Wait()
+
+```
+- Individual actions on the balance are safe (there's no data race). However, balance reads/writes from different goroutines can get "mixed up" leading to an incorrect final balance.
+- `go run -race` won't report it.
