@@ -84,7 +84,7 @@ So Unicode is the table, a code point is a number in that table, and UTF-8 is th
   │  س   │ U+0633     │ ───> [D8][B3]
   │  😊  │ U+1F60A    │ ───> [F0][9F][98][8A]
   │  👍  │ U+1F44D    │ ───> [F0][9F][91][8D] ┐
-  │  🏽  │ │ U+1F3FD    │ ───> [F0][9F][8F][BD] ┘ 👍🏽 = 8 bytes
+  │  🏽  │ U+1F3FD    │ ───> [F0][9F][8F][BD] ┘ 👍🏽 = 8 bytes
   └──────┴────────────┘
 ```
 
