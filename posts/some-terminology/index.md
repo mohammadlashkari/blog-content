@@ -6,7 +6,7 @@ language: en
 is_favorite: false
 tags:
   - general
-published_at:
+published_at: 2026-10-05T00:00:00Z
 ---
 
 In our daily work we use some words interchangeably, and people still get what we mean and it's fine. But I think it's worth knowing the difference. Some of them are:
