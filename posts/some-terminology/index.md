@@ -12,10 +12,10 @@ published_at:
 In our daily work we use some words interchangeably, and people still get what we mean and it's fine. But I think it's worth knowing the difference. Some of them are:
 
 - declare, define, initialize
-- infer, convert, cast, coerce
 - argument, parameter
 - Unicode, code point, UTF-8
 - data race, race condition
+- infer, convert, cast, coerce
 
 Let's check each one.
 
@@ -47,8 +47,6 @@ What happens if you read a variable before it ever gets a value depends on the l
 - **Go**: there is no such thing as an uninitialized variable. Every variable starts at its **zero value**: `0`, `""`, `false`, `nil`, and so on.
 - **Rust**: the compiler tracks whether a binding is definitely initialized. `let x;` followed later by `x = 5;` is fine, but reading `x` in between is a compile error.
 
-## Infer, convert, cast, coerce
-
 ## Argument and parameter
 
 A **parameter** is the name in the function's definition. It belongs to the function scope and is bound to a new value on every call. An **argument** is the value you pass at the call site.
@@ -70,24 +68,12 @@ Old textbooks say **formal parameter** for the first one and **actual parameter*
 I won't explain how Unicode works in detail, just the difference between these three words. (There are pretty good YouTube videos you can find)
 
 **Unicode** is a big table. It contains basically every character you can think of: ASCII letters, Farsi, Chinese, emoji and gives each one a unique number.
-That number is the **code point**. It's usually written in hex with a `U+` prefix:
-- `A` is `U+0041`
-- `س` is `U+0633`
-- `😊` is `U+1F60A`
+That number is the **code point**. It's usually written in hex with a `U+` prefix (`A = U+0041`).
 
 Unicode doesn't say how that number is stored in memory or in a file, so Unicode itself is not an encoding.
-That's what **UTF-8** does. It's an encoding: a rule for turning a code point into bytes. It's variable width, so a code point takes 1 to 4 bytes depending on how big it is:
-```
-char   code point   UTF-8 bytes
-A      U+0041       41
-س      U+0633       D8 B3
-😊     U+1F60A      F0 9F 98 8A
-```
+That's what **UTF-8** does. It's an encoding: a rule for turning a code point into bytes. It's variable width, so a code point takes 1 to 4 bytes depending on how big it is.
 
-- ASCII characters take 1 byte, the same byte as in ASCII, so every ASCII file is already valid UTF-8.
-- Some characters are made by combining code points, for example emojis with skin tones: `👍🏽` is `👍` (`U+1F44D`) + skin tone (`U+1F3FD`), so it takes 8 bytes not 4.
-
-So: Unicode is the table, a code point is a number in that table, and UTF-8 is the way of writing that number as bytes.
+So Unicode is the table, a code point is a number in that table, and UTF-8 is the way of writing that number as bytes.
 
 ```txt
       Unicode table          memory (UTF-8)
@@ -100,12 +86,14 @@ So: Unicode is the table, a code point is a number in that table, and UTF-8 is t
   │  👍  │ U+1F44D    │ ───> [F0][9F][91][8D] ┐
   │  🏽  │ │ U+1F3FD    │ ───> [F0][9F][8F][BD] ┘ 👍🏽 = 8 bytes
   └──────┴────────────┘
-
 ```
+
+- ASCII characters take 1 byte, the same byte as in ASCII, so every ASCII file is already valid UTF-8.
+- Some characters are made by combining code points, for example emojis with skin tones: `👍🏽` is `👍` (`U+1F44D`) + skin tone (`U+1F3FD`), so it takes 8 bytes, not 4.
 
 ## Data race and race condition
 
-A **data race** happens when multiple thread, goroutine,... access shared data, and at least one of them modifies it.
+A **data race** happens when two or more threads (or goroutines) access the same memory at the same time, without synchronization, and at least one of them writes to it.
 
 ```go
 num := 10
@@ -117,47 +105,51 @@ wg.Go(func() { fmt.Println(num) })
 wg.Wait()
 ```
 
-- `go run -race` will report it.
+`go run -race` will report it.
 
 
-A **race condition** happens when an unpredictable order of operations leads to an incorrect system state. In a concurrent environment, we can’t control the exact order things happen. Still, we need to make sure that no matter the order, the system always ends up in the correct state.
+A **race condition** happens when an unpredictable order of operations leads to an incorrect system state. In a concurrent environment, we can't control the exact order things happen. Still, we need to make sure that no matter the order, the system always ends up in the correct state.
 
 ```go
 balance := 100
 var wg sync.WaitGroup
 var mu sync.Mutex // Mutex prevents data races, but not race conditions
 
-// Transaction 1: Withdraw $80
-wg.Go(func() {
+withdraw := func(amount int) {
+    // check
     mu.Lock()
-    defer mu.Unlock()
+    ok := balance >= amount
+    mu.Unlock()
 
-    if balance >= 80 {
-        // Simulating some processing delay
-        time.Sleep(10 * time.Millisecond)
-        balance -= 80
-        fmt.Println("withdrew $80, balance remaining:", balance)
-    } else {
-        fmt.Println("failed to withdraw $80: insufficient funds")
+    if !ok {
+        fmt.Printf("failed to withdraw $%d: insufficient funds\n", amount)
+        return
     }
-})
 
-// Transaction 2: Withdraw $50
-wg.Go(func() {
+    // Simulating some processing delay
+    time.Sleep(10 * time.Millisecond)
+
+    // act
     mu.Lock()
-    defer mu.Unlock()
+    balance -= amount
+    mu.Unlock()
+    fmt.Printf("withdrew $%d\n", amount)
+}
 
-    if balance >= 50 {
-        time.Sleep(10 * time.Millisecond)
-        balance -= 50
-        fmt.Println("withdrew $50, balance remaining:", balance)
-    } else {
-        fmt.Println("failed to withdraw $50: insufficient funds")
-    }
-})
+wg.Go(func() { withdraw(80) }) // Transaction 1
+wg.Go(func() { withdraw(50) }) // Transaction 2
 
 wg.Wait()
-
+fmt.Println("final balance:", balance) // usually -30
 ```
-- Individual actions on the balance are safe (there's no data race). However, balance reads/writes from different goroutines can get "mixed up" leading to an incorrect final balance.
-- `go run -race` won't report it.
+
+Every read and write of `balance` is behind the mutex, so there's no data race and `go run -race` won't report it. But checking the balance and withdrawing are two separate steps. Both goroutines check while the balance is still 100, both pass, both withdraw, and the balance ends at -30.
+
+
+## Infer, convert, cast, coerce
+
+- **Infer:** The compiler automatically figures out types that were not explicitly annotated (`let x = 5` in Rust).
+- **Conversion:** Any mechanism for turning a value of one type into another, whether explicit or implicit.
+- **Cast:** An **explicit** conversion written directly in code, usually using language syntax (`x as u64` in Rust, `(int)x` in C).
+- **Coercion:** An **implicit** conversion performed automatically by the compiler without explicit syntax (`&String` to `&str` in Rust).
+- **Promotion:** A special kind of coercion: small numeric types get converted to a bigger one automatically (`char` and `short` to `int` in C). Rust never does it.
