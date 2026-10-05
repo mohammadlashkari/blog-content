@@ -9,3 +9,5 @@ feeds:
     url: https://eli.thegreenplace.net/feeds/all.atom.xml
   - name: Bob Nystrom
     url: https://journal.stuffwithstuff.com/rss.xml
+  - name: Go blog
+    url: https://go.dev/blog/feed.atom
