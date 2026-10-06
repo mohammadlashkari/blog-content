@@ -5,7 +5,7 @@ description: The words we use interchangeably, and what they actually mean
 language: en
 is_favorite: false
 tags:
-  - general
+  - programming
 published_at: 2026-10-05T00:00:00Z
 ---
 
@@ -15,19 +15,21 @@ In our daily work we use some words interchangeably, and people still get what w
 - argument, parameter
 - Unicode, code point, UTF-8
 - data race, race condition
-- infer, convert, cast, coerce
+- Inference, convert, cast, coerce
 
 Let's check each one.
 
 ## Variable declaration, definition, initialization
 
-A **declaration** tells the language "this name exists, and here's its type". It doesn't necessarily reserve any storage. In C, `extern int foo;` declares `foo` without allocating anything for it; it only promises that `foo` exists somewhere.
+A **declaration** tells the compiler "this name exists, and here's its type". It doesn't necessarily reserve any storage. In C, `extern int foo;` declares `foo` without allocating any memory, only promising that `foo` is defined somewhere else.
 
-A **definition** is what actually reserves the memory. Where that memory ends up depends on the variable: a local usually lives on the stack, a global lives in static storage. And most of the time, one line does both jobs at once: `int foo;` is a definition and a declaration.
+A **definition** is what actually reserves the memory. Where that memory ends up depends on the variable: a local usually lives on the stack, a global lives in static storage. Every definition is also a declaration, and for variables only `extern` keeps the two apart. Without it, one line does both jobs: `int foo;` declares `foo` and reserves memory for it.
 
-**Initialization** gives a variable its first value, at the point it's defined.
+Go and Rust don't have this split for regular variables: `var x int` and `let x;` always declare and define. The difference mostly matters in C and C++.
 
-**Assignment** gives an existing variable a new value, any time after it's defined.
+**Initialization** gives a variable a value as part of its definition.
+
+**Assignment** gives a variable a value after its definition, replacing the current one if it has one.
 
 A definition either comes with an initializer, or it doesn't, in which case you assign a value later.
 
@@ -146,9 +148,9 @@ fmt.Println("final balance:", balance) // usually -30
 Every read and write of `balance` is behind the mutex, so there's no data race and `go run -race` won't report it. But checking the balance and withdrawing are two separate steps. Both goroutines check while the balance is still 100, both pass, both withdraw, and the balance ends at -30.
 
 
-## Infer, convert, cast, coerce
+## Inference, convert, cast, coerce
 
-- **Infer:** The compiler automatically figures out types that were not explicitly annotated (`let x = 5` in Rust).
+- **Inference:** The compiler automatically figures out types that were not explicitly annotated (`let x = 5` in Rust). It's not a conversion; nothing changes type.
 - **Conversion:** Any mechanism for turning a value of one type into another, whether explicit or implicit.
 - **Cast:** An **explicit** conversion written directly in code, usually using language syntax (`x as u64` in Rust, `(int)x` in C).
 - **Coercion:** An **implicit** conversion performed automatically by the compiler without explicit syntax (`&String` to `&str` in Rust).
