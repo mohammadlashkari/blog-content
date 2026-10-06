@@ -15,7 +15,7 @@ In our daily work we use some words interchangeably, and people still get what w
 - argument, parameter
 - Unicode, code point, UTF-8
 - data race, race condition
-- Inference, convert, cast, coerce
+- inference, convert, cast, coerce
 
 Let's check each one.
 
